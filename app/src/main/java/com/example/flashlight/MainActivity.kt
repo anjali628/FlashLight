@@ -5,6 +5,7 @@ import android.hardware.camera2.CameraManager
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.ImageButton
 import android.widget.Toast
@@ -28,24 +29,25 @@ class MainActivity : AppCompatActivity() {
 
     @RequiresApi(Build.VERSION_CODES.M)
     private fun flashLightOnOrOff(v: View?) {
-        if(!isFlash)
+        if(isFlash)
+        {
+            val cameraListId=cameraM.cameraIdList[0]
+            cameraM.setTorchMode(cameraListId,false)
+            isFlash=false
+            Log.d("TAG", "flashLightOnOrOff2: ")
+            powerBtn.setImageResource(R.drawable.icon_off)
+            textMsg("Flash Light is off!",this)
+
+        }
+        else
         {
             val cameraListId=cameraM.cameraIdList[0]
             cameraM.setTorchMode(cameraListId,true)
             isFlash=true
+            Log.d("TAG", "flashLightOnOrOff: ")
             powerBtn.setImageResource(R.drawable.icon_on)
-
             textMsg("Flash Light is on!",this)
-        }
-        else
-        {
 
-            val cameraListId=cameraM.cameraIdList[0]
-            cameraM.setTorchMode(cameraListId,false)
-            isFlash=false
-            powerBtn.setImageResource(R.drawable.icon_off)
-
-            textMsg("Flash Light is off!",this)
         }
 
     }
